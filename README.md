@@ -1,4 +1,5 @@
 # softToDate
+checks if freeware (given its version) is up to date or not.
 #### Requirements
 [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
 
