@@ -10,6 +10,7 @@ from distutils.version import LooseVersion as V
 
 
 class Software:
+
     def __init__(self, name, version):
         self.name = name
         self.version = version
@@ -20,11 +21,13 @@ class Software:
         f = urllib.urlopen("http://www.filehippo.com/search?%s" % params)
         html = f.read()
         parsed_html = bs(html)
-        results = parsed_html.find('div', attrs={'class':'searchmiddle'})
+        results = parsed_html.find('div', attrs={'class': 'searchmiddle'})
 
         if results.find('table'):
-            first_result = results.find('table').find('h2').find('a').contents[0].strip()
-            self.latestVersion = re.search('\d+\.\d*(\.\d+)*', first_result).group(0).strip()
+            first_result = results.find('table').find(
+                'h2').find('a').contents[0].strip()
+            self.latestVersion = re.search(
+                '\d+\.\d*(\.\d+)*', first_result).group(0).strip()
             self.compareVersions()
         else:
             self.latestVersion = 'Not found'
@@ -32,6 +35,7 @@ class Software:
     def compareVersions(self):
         if V(self.version) >= V(self.latestVersion):
             self.upToDate = True
+
 
 def parseTextFile(file):
     softs = []
@@ -42,16 +46,17 @@ def parseTextFile(file):
         softs.append(Software(name, version))
     return softs
 
+
 def main():
     # Arguments parsing
     parser = ap.ArgumentParser(description='Software version checkker')
     parser.add_argument('-f', '--file',
-        metavar='SOFTWARES_FILE',
-        default='softwares.txt',
-        help='path to text file containing software information')
+                        metavar='SOFTWARES_FILE',
+                        default='softwares.txt',
+                        help='path to text file containing software information')
     parser.add_argument('--sql',
-        metavar='DB_CONFIG_FILE',
-        help='path to database config file')
+                        metavar='DB_CONFIG_FILE',
+                        help='path to database config file')
     args = parser.parse_args()
     softwareFile = args.file
 
@@ -70,7 +75,8 @@ def main():
             exit(1)
 
         try:
-            conStr = 'DRIVER={SQL Server};SERVER=%s;DATABASE=%s;UID=%s;PWD=%s' % (server, database, user, pwd)
+            conStr = 'DRIVER={SQL Server};SERVER=%s;DATABASE=%s;UID=%s;PWD=%s' % (
+                server, database, user, pwd)
             con = pyodbc.connect(conStr)
         except Exception as detail:
             print "ERROR: can't connect to database (", detail, ")"
