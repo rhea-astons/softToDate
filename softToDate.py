@@ -6,11 +6,14 @@ import re
 import argparse as ap
 import pyodbc
 import ConfigParser as cp
+from distutils.version import LooseVersion as V
+
 
 class Software:
 	def __init__(self, name, version):
 		self.name = name
 		self.version = version
+		self.upToDate = False
 
 	def getLatestVersion(self):
 		params = urllib.urlencode({'q': self.name})
@@ -22,13 +25,21 @@ class Software:
 		if results.find('table'):
 			first_result = results.find('table').find('h2').find('a').contents[0].strip()
 			self.latestVersion = re.search('\d+\.\d*(\.\d+)*', first_result).group(0).strip()
+			self.compareVersions()
 		else:
-			self.latestVersion = 'not found'
+			self.latestVersion = 'Not found'
+
+	def compareVersions(self):
+		if V(self.version) >= V(self.latestVersion):
+			self.upToDate = True
 
 def parseTextFile(file):
 	softs = []
-	for appName in open(file, 'r'):
-		softs.append(Software(appName.rstrip('\r\n'), '1.0'))
+	for line in open(file, 'r'):
+		infos = line.rstrip('\r\n').split(',')
+		name = infos[0]
+		version = infos[1]
+		softs.append(Software(name, version))
 	return softs
 
 def main():
@@ -75,7 +86,7 @@ def main():
 
 		softwares = []
 		for row in rows:
-			softwares.append(Software(row.nom, '1.0'))
+			softwares.append(Software(row.name, row.version))
 
 		print len(softwares), 'softwares found in database'
 
@@ -87,7 +98,10 @@ def main():
 	# WORK
 	for software in softwares:
 		software.getLatestVersion()
-		print software.name, '>', software.latestVersion
+		if software.upToDate:
+			print software.name, 'is up to date.'
+		else:
+			print software.name, '>', software.latestVersion
 
 
 if __name__ == '__main__':

@@ -1,18 +1,6 @@
-Notepad++
-Firefox
-PDF Creator
-CD Burner XP Pro
-PDF Split & Merge
-7-Zip
-Skype
-Truecrypt
-RealPlayer
-VLC Media Player
-QuickTime
-Thunderbird
-KeePass Password Safe
-Runtime Access 2007
-Filezilla
-Audacity
-XnView
-Mathtype
+Notepad++,6.5
+Firefox,26.0
+PDF Creator,5.1
+CD Burner XP Pro,4.5
+PDF Split & Merge,1.7
+Mathtype,6.9
