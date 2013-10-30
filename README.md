@@ -2,6 +2,7 @@
 checks if freeware (given its version) is up to date or not.
 #### Requirements
 [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
+
 [pyodbc](https://code.google.com/p/pyodbc/)
 
 #### Usage
