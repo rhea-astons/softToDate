@@ -17,4 +17,14 @@ softToDate.py [-h] [-f SOFTWARES_FILE] [--sql DB_CONFIG_FILE]
 	database = mydb
 	user = username
 	pwd = password
-	query = SELECT names FROM softwares
+	query = SELECT soft_name as name, soft_vers as version FROM software_table
+
+##### Software file example
+one software per line, name and version comma separated
+
+	Notepad++,6.5
+	Firefox,26.0
+	PDF Creator,5.1
+	CD Burner XP Pro,4.5
+	PDF Split & Merge,1.7
+	Mathtype,6.9
